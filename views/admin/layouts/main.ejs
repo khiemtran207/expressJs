@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dynamic Admin Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .section.active { display: block; }
+  </style>
+</head>
+<body class="bg-gray-100">
+  <!-- Sidebar -->
+  <nav class="fixed z-30 w-64 h-screen bg-gray-800">
+    <div class="flex items-center justify-center h-16 bg-gray-900">
+      <span class="text-white text-lg font-bold">Admin Panel</span>
+    </div>
+    <div class="p-4">
+      <ul class="space-y-2">
+        <li><a href="/admin/dashboard" class="flex items-center p-2 text-white hover:bg-gray-700 rounded section-link">Dashboard</a></li>
+        <li><a href="/admin/users" class="flex items-center p-2 text-white hover:bg-gray-700 rounded section-link">Users</a></li>
+        <li><a href="/admin/products" class="flex items-center p-2 text-white hover:bg-gray-700 rounded section-link">Products</a></li>
+        <li><a href="/admin/orders" class="flex items-center p-2 text-white hover:bg-gray-700 rounded section-link">Orders</a></li>
+        <li><a href="/admin/settings" class="flex items-center p-2 text-white hover:bg-gray-700 rounded section-link">Settings</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="ml-64 p-8">
+    <!-- Header -->
+    <header class="bg-white shadow-md p-4 mb-8 rounded-lg flex justify-between items-center">
+      <h1 class="text-2xl font-bold section-title"><%- title %></h1>
+      <div class="flex items-center space-x-4">
+        <input type="text" placeholder="Search..." class="border rounded-full px-4 py-2">
+        <img src="avatar.jpg" alt="User" class="w-10 h-10 rounded-full">
+      </div>
+    </header>
+
+    <!-- Dynamic Sections -->
+    <div class="dynamic-content">
+      <%- content %>
+    </div>
+  </div>
+</body>
+</html>
