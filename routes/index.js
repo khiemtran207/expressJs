@@ -5,7 +5,7 @@ var router = express.Router();
 router.get('/admin', function(req, res, next) {
   res.render('admin/dashboard' );
 });
-
+router.use('/admin/categories', require('./categoryRoutes'));
 router.use('/admin/products', require('./productRoutes'));
 
 module.exports = router;

@@ -1,0 +1,136 @@
+<section id="categories" class="section">
+  <div class="mb-6 flex justify-between items-center">
+      <h2 class="text-2xl font-bold">Categories List</h2>
+      <button id="addCategoryBtn" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Add New Category</button>
+    </div>
+
+    <div class="mb-4 flex items-center space-x-4">
+      <input type="text" id="searchInput" placeholder="Search categories..." class="w-64 px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500">
+      <select id="sortSelect" class="px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500">
+        <option value="">Sort By</option>
+        <option value="name_asc">Name (A-Z)</option>
+        <option value="name_desc">Name (Z-A)</option>
+        <option value="created_asc">Created (Oldest)</option>
+        <option value="created_desc">Created (Newest)</option>
+      </select>
+      <select id="statusFilter" class="px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500">
+        <option value="">All Status</option>
+        <option value="active">Active</option>
+        <option value="inactive">Inactive</option>
+      </select>
+    </div>
+
+    <div class="overflow-x-auto">
+      <table class="w-full bg-white shadow-md rounded-lg overflow-hidden">
+        <thead class="bg-gray-200">
+          <tr>
+            <th class="p-3 text-left">Id</th>
+            <th class="p-3 text-left">Name</th>
+            <th class="p-3 text-left">Slug</th>
+            <th class="p-3 text-left">Description</th>
+            <th class="p-3 text-left">Image</th>
+            <th class="p-3 text-center">Status</th>
+            <th class="p-3 text-center">Meta title</th>
+            <th class="p-3 text-center">Meta description</th>
+            <th class="p-3 text-center">Meta keywords</th>
+            <th class="p-3 text-center">Created at</th>
+            <th class="p-3 text-center">Update at</th>
+            <th class="p-3 text-center">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="categoryList">
+            <% categories.forEach(function(category) { %>
+              <tr class="hover:bg-gray-100" data-id="<%= category.id %>">
+                <td class="p-3"><%= category.id %></td>
+                <td class="p-3"><%= category.name %></td>
+                <td class="p-3"><%= category.slug %></td>
+                <td class="p-3"><%= category.description %></td>
+                <td class="p-3">
+                  <img src="<%= category.image %>" alt="Category" class="w-12 h-12 object-cover rounded">
+                </td>
+                <td class="p-3 text-center">
+                        <% if (category.is_active) { %>
+                          <span class="px-2 py-1 bg-green-200 text-green-800 rounded-full text-xs">Active</span>
+                        <% } else { %>
+                          <span class="px-2 py-1 bg-red-200 text-red-800 rounded-full text-xs">Inactive</span>
+                        <% } %>
+               </td>
+                  <td class="p-3"><%= category.meta_title %></td>
+                  <td class="p-3"><%= category.meta_description %></td>
+                  <td class="p-3"><%= category.meta_keywords %></td>
+                  <td class="p-3"><%= category.created_at %></td>
+                  <td class="p-3"><%= category.update_at %></td>
+                <td class="p-3 text-center">
+                  <button class="btnEditCategory bg-blue-500 text-white px-3 py-1 rounded text-sm hover:bg-blue-600 mr-2">Edit</button>
+                  <button class="btnRemoveCategory bg-red-500 text-white px-3 py-1 rounded text-sm hover:bg-red-600">Delete</button>
+                </td>
+              </tr>
+            <% }); %>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="mt-4 flex justify-between items-center">
+      <div>
+        <span>Showing 1 to 10 of 57 entries</span>
+      </div>
+      <div class="flex space-x-2">
+        <button  class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">Previous</button>
+        <button class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">1</button>
+        <button class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">2</button>
+        <button class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">3</button>
+        <button class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">Next</button>
+      </div>
+    </div>
+  <div id="categoryForm" class="fixed inset-0 bg-gray-600 bg-opacity-50 z-50 flex items-center justify-center hidden">
+    <form class="bg-white p-6 rounded-lg shadow-xl w-full max-w-6xl mx-auto">
+      <h2 class="text-2xl font-bold mb-4" id="formTitle">Add New Category</h2>
+      <div class="grid grid-cols-2 gap-6">
+          <div class="mb-4">
+              <label class="block text-gray-700 text-sm font-bold mb-2" for="name">
+                  Category Name
+                  <span class="text-red-500">*</span>
+              </label>
+              <input type="text" id="name" name="name" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500" required>
+              <div id="nameError" class="text-red-500 text-sm mt-1 hidden"></div>
+          </div>
+          <div class="mb-4">
+              <label class="block text-gray-700 text-sm font-bold mb-2" for="slug">
+                  Slug
+                  <span class="text-red-500">*</span>
+              </label>
+              <input type="text" id="slug" name="slug" step="0.01" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500" required>
+              <div id="slugError" class="text-red-500 text-sm mt-1 hidden"></div>
+          </div>
+      </div>
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="description">Description</label>
+        <textarea id="description" name="description" rows="3" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500"></textarea>
+      </div>
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="image">Image</label>
+        <input type="text" id="image" name="image" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500">
+      </div>
+      <div class="mb-4 checkbox-wrapper-25">
+          <label class="block text-gray-700 text-sm font-bold mb-2" for="enable">Enable</label>
+          <input type="checkbox" id="enable" name="enable" />
+      </div>
+      <div class="mb-4">
+          <label class="block text-gray-700 text-sm font-bold mb-2" for="meta-title">Meta Title</label>
+          <input type="text" id="meta-title" name="meta-title" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500">
+      </div>
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="meta-description">Meta Description</label>
+        <input type="text" id="meta-description" name="meta-description" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500">
+      </div>
+      <div class="mb-4">
+          <label class="block text-gray-700 text-sm font-bold mb-2" for="meta-keywords">Meta Keywords</label>
+          <input type="text" id="meta-keywords" name="meta-keywords" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500">
+      </div>
+      <div class="flex justify-between">
+        <button type="submit" class="bg-blue-500 text-white px-6 py-3 rounded hover:bg-blue-600 transition duration-300">Save</button>
+        <button type="button" id="cancelBtn" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Cancel</button>
+      </div>
+    </form>
+  </div>
+</section>

@@ -3,32 +3,37 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dynamic Admin Dashboard</title>
+  <title>Admin Dashboard</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="/javascripts/product-management.js"></script>
+  <script src="/javascripts/category-management.js"></script>
+  <script src="/javascripts/general-management.js"></script>
+  <link rel="stylesheet" href="/stylesheets/category-management.css">
   <style>
     .section.active { display: block; }
+    .notification { display: none; }
+    .notification.show { display: block; }
   </style>
 </head>
 <body class="bg-gray-100">
   <!-- Sidebar -->
   <nav class="fixed z-30 w-64 h-screen bg-gray-800">
     <div class="flex items-center justify-center h-16 bg-gray-900">
-      <span class="text-white text-lg font-bold">Admin Panel</span>
+      <span class="text-white text-lg font-bold">
+          <a href="/admin">Admin Panel</a>
     </div>
     <div class="p-4">
       <ul class="space-y-2">
-        <li><a href="/admin/dashboard" class="flex items-center p-2 text-white hover:bg-gray-700 rounded section-link">Dashboard</a></li>
         <li><a href="/admin/users" class="flex items-center p-2 text-white hover:bg-gray-700 rounded section-link">Users</a></li>
+        <li><a href="/admin/categories" class="flex items-center p-2 text-white hover:bg-gray-700 rounded section-link">Category</a></li>
         <li><a href="/admin/products" class="flex items-center p-2 text-white hover:bg-gray-700 rounded section-link">Products</a></li>
         <li><a href="/admin/orders" class="flex items-center p-2 text-white hover:bg-gray-700 rounded section-link">Orders</a></li>
         <li><a href="/admin/settings" class="flex items-center p-2 text-white hover:bg-gray-700 rounded section-link">Settings</a></li>
       </ul>
     </div>
   </nav>
-
-  <!-- Main Content -->
-  <div class="ml-64 p-8">
-    <!-- Header -->
+    <div class="ml-64 p-8">
     <header class="bg-white shadow-md p-4 mb-8 rounded-lg flex justify-between items-center">
       <h1 class="text-2xl font-bold section-title"><%- title %></h1>
       <div class="flex items-center space-x-4">
@@ -36,10 +41,30 @@
         <img src="avatar.jpg" alt="User" class="w-10 h-10 rounded-full">
       </div>
     </header>
-
-    <!-- Dynamic Sections -->
+    <div class="mb-8">
+      <div id="successNotification" class="notification bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded shadow-md mb-4" role="alert">
+        <div class="flex">
+          <div class="py-1"><svg class="fill-current h-6 w-6 text-green-500 mr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z"/></svg></div>
+          <div>
+            <p class="font-bold" id="successTitle">Success!</p>
+            <p class="text-sm" id="successMessage"></p>
+          </div>
+          <button id="btnCloseAlertSuccess" class="ml-auto close-btn">&times;</button>
+        </div>
+      </div>
+      <div id="errorNotification" class="notification bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded shadow-md" role="alert">
+        <div class="flex">
+          <div class="py-1"><svg class="fill-current h-6 w-6 text-red-500 mr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm1.41-1.41A8 8 0 1 0 15.66 4.34 8 8 0 0 0 4.34 15.66zm9.9-8.49L11.41 10l2.83 2.83-1.41 1.41L10 11.41l-2.83 2.83-1.41-1.41L8.59 10 5.76 7.17l1.41-1.41L10 8.59l2.83-2.83 1.41 1.41z"/></svg></div>
+          <div>
+            <p class="font-bold" id="errorTitle">Error!</p>
+            <p class="text-sm" id="errorMessage">Something went wrong. Please try again.</p>
+          </div>
+          <button id="btnCloseAlertError" class="ml-auto close-btn">&times;</button>
+        </div>
+      </div>
+    </div>
     <div class="dynamic-content">
-      <%- content %>
+      <%- body %>
     </div>
   </div>
 </body>
