@@ -38,7 +38,22 @@ exports.update = async (req, res) => {
     } catch (error) {
         res.status(500).json({
             error: 'Internal Server Error',
-            message: 'An error occurred while get the category.'
+            message: 'An error occurred while update the category.'
+        });
+    }
+};
+
+exports.delete = async (req, res) => {
+    try {
+        const categoryId = req.params.id;
+        await categoryModel.delete(categoryId);
+        res.status(201).json({
+            message: 'Delete category successfully',
+        });
+    } catch (error) {
+        res.status(500).json({
+            error: 'Internal Server Error',
+            message: 'An error occurred while delete the category.'
         });
     }
 };

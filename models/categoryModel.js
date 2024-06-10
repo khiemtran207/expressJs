@@ -21,6 +21,15 @@ const categoryModel = {
             throw error;
         }
     },
+    delete: async (categoryId) => {
+        try {
+            const query = 'DELETE FROM category c WHERE c.id = ' + categoryId;
+            await pool.query(query);
+        } catch (error) {
+            console.error('Error in categoryModel.getAll: ', error);
+            throw error;
+        }
+    },
     create: async (data) => {
         try {
             var is_active = data.enable === "true" ? 1 : 0;
@@ -46,6 +55,9 @@ const categoryModel = {
     },
     update: async (data) => {
         try {
+            if (!data.id) {
+                throw new Error('Invalid category id');
+            }
             var is_active = data.enable === "true" ? 1 : 0;
             const query = `UPDATE category SET name = ?, slug = ?, description = ?, image_path = ?, is_active = ?, meta_title = ?, meta_description = ?, meta_keywords = ? WHERE id = ?;`;
             const values = [
@@ -59,7 +71,7 @@ const categoryModel = {
                 data.metaKeywords,
                 data.id
             ];
-            await pool.query(query, values);
+            const [result] = await pool.query(query, values);
             const [categories] = await pool.query('SELECT * FROM category WHERE id = ?', [data.id]);
             const newCategory = categories[0];
             newCategory.is_active = newCategory.is_active === 1;

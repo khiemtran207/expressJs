@@ -36,3 +36,8 @@
     padding-left: 25px;
     padding-right: 0;
 }
+
+#preview-category-image img {
+    width: 200;
+}
+
